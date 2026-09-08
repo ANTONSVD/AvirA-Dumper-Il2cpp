@@ -171,5 +171,6 @@ namespace AvirA
 		std::vector<std::unordered_map<u32, int>> m_image_attr_maps;
 		std::unordered_map<int, S_DefaultValue> m_field_defaults;
 		std::unordered_map<int, S_DefaultValue> m_param_defaults;
+		mutable std::unordered_map<u32, std::string> m_string_cache;
 	};
 }

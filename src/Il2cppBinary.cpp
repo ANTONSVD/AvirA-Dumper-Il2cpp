@@ -526,6 +526,18 @@ namespace AvirA
 			for (u64 i = 0; i < insts_count; i++)
 				m_generic_insts.push_back(ReadVaU64(insts_ptr + i * 8));
 		}
+
+		m_method_spec_map.clear();
+		for (size_t i = 0; i < m_generic_methods.size(); i++)
+		{
+			int spec = m_generic_methods[i].spec_index;
+			if (spec < 0 || (size_t)spec >= m_method_specs.size())
+				continue;
+			int def = m_method_specs[(size_t)spec].method_def;
+			if (def < 0)
+				continue;
+			m_method_spec_map[def].push_back(i);
+		}
 		return true;
 	}
 
@@ -964,18 +976,22 @@ namespace AvirA
 			return out;
 		if ((size_t)method_def_index >= m_metadata->Methods().size())
 			return out;
+		auto found = m_method_spec_map.find(method_def_index);
+		if (found == m_method_spec_map.end())
+			return out;
 		const S_MethodDef& method = m_metadata->Methods()[(size_t)method_def_index];
 		bool strip_declaring = false;
 		if (method.declaring >= 0 && (size_t)method.declaring < m_metadata->Typedefs().size())
 			strip_declaring = m_metadata->Typedefs()[(size_t)method.declaring].generic_container >= 0;
-		for (size_t i = 0; i < m_generic_methods.size(); i++)
+		for (size_t k = 0; k < found->second.size(); k++)
 		{
+			size_t i = found->second[k];
+			if (i >= m_generic_methods.size())
+				continue;
 			const S_GenericMethodRaw& entry = m_generic_methods[i];
 			if (entry.spec_index < 0 || (size_t)entry.spec_index >= m_method_specs.size())
 				continue;
 			const S_MethodSpecRaw& spec = m_method_specs[(size_t)entry.spec_index];
-			if (spec.method_def != method_def_index)
-				continue;
 			S_GenericInstance instance;
 			instance.pointer = 0;
 			if (entry.method_index >= 0 && (size_t)entry.method_index < m_generic_method_pointers.size())

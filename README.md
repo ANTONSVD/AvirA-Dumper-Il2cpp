@@ -14,14 +14,20 @@ SCPSL. Файл игры при этом не меняется.
 
 Нужна Visual Studio 2022 с C++.
 
-1. Запусти `build.bat`. Соберется `out\AvirA_Dumper.exe`.
-2. Запусти `out\AvirA_Dumper.exe`. Пути к игре он найдет сам.
+1. Открой `AvirADumper.sln` в Visual Studio и нажми Build. Соберется `out\AvirADumper.exe`.
+2. Запусти `out\AvirADumper.exe`. Пути к игре он найдет сам.
 3. Результат появится в `out\Dump`.
+
+Можно собрать из консоли:
+
+```bat
+msbuild AvirADumper.vcxproj /p:Configuration=Release /p:Platform=x64
+```
 
 Можно указать файлы вручную:
 
 ```bat
-out\AvirA_Dumper.exe GameAssembly.dll global-metadata.dat -o out\Dump
+out\AvirADumper.exe GameAssembly.dll global-metadata.dat -o out\Dump
 ```
 
 ## Примечание

@@ -403,10 +403,13 @@ namespace AvirA
 		const std::vector<S_ImageDef>& images = m_metadata.Images();
 		const std::vector<S_TypeDef>& typedefs = m_metadata.Typedefs();
 		std::string body;
+		body.reserve(35000000);
 		for (size_t i = 0; i < images.size(); i++)
 			body += "// Image " + FormatU32((u32)i) + ": " + images[i].name + " - " + FormatI32(images[i].start) + "\n";
 		for (size_t i = 0; i < images.size(); i++)
 		{
+			if (i % 10 == 0 || i + 1 == images.size())
+				C_Log::Info("Dump image " + FormatU32((u32)(i + 1)) + "/" + FormatU32((u32)images.size()) + ": " + images[i].name);
 			int type_end = images[i].start + (int)images[i].count;
 			for (int t = images[i].start; t < type_end; t++)
 			{

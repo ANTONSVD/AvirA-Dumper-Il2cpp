@@ -112,6 +112,7 @@ namespace AvirA
 		struct S_GenericMethodRaw { i32 spec_index = -1; i32 method_index = -1; i32 invoker_index = -1; };
 		std::vector<S_MethodSpecRaw> m_method_specs;
 		std::vector<S_GenericMethodRaw> m_generic_methods;
+		std::unordered_map<int, std::vector<size_t>> m_method_spec_map;
 		std::vector<u64> m_generic_method_pointers;
 		std::vector<u64> m_generic_insts;
 	};

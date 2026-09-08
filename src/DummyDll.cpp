@@ -1037,6 +1037,8 @@ namespace AvirA
 			fwrite(bytes.data(), 1, bytes.size(), file);
 			fclose(file);
 			done++;
+			if (done % 10 == 0 || done == (u32)images.size())
+				C_Log::Info("DLL " + std::to_string(done) + "/" + std::to_string(images.size()) + ": " + file_name);
 		}
 		C_Log::Ok("Dummy DLLs: " + std::to_string(done) + "/" + std::to_string(images.size()));
 		return true;

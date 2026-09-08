@@ -14,7 +14,7 @@
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{A7B4C2D1-3E5F-4A6B-8C9D-0E1F2A3B4C5D}</ProjectGuid>
-    <RootNamespace>AvirA_Dumper</RootNamespace>
+    <RootNamespace>AvirADumper</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -38,12 +38,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)out\</OutDir>
     <IntDir>$(ProjectDir)out\obj\$(Configuration)\</IntDir>
-    <TargetName>AvirA_Dumper</TargetName>
+    <TargetName>AvirADumper</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)out\</OutDir>
     <IntDir>$(ProjectDir)out\obj\$(Configuration)\</IntDir>
-    <TargetName>AvirA_Dumper</TargetName>
+    <TargetName>AvirADumper</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

@@ -27,6 +27,9 @@ namespace AvirA
 
 	std::string C_Il2cppMetadata::GetString(u32 index) const
 	{
+		auto cached = m_string_cache.find(index);
+		if (cached != m_string_cache.end())
+			return cached->second;
 		u64 at = m_strings_off + index;
 		if (at >= m_file.Size())
 			return "";
@@ -36,6 +39,7 @@ namespace AvirA
 			out.push_back((char)m_file.Data()[at]);
 			at++;
 		}
+		m_string_cache[index] = out;
 		return out;
 	}
 

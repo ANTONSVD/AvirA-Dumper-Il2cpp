@@ -155,7 +155,7 @@ int main(int argc, char** argv)
 
 	CreateDirs(out_dir);
 	CreateDirs(out_dir + "\\DummyDll");
-	AvirA::C_Log::Info("Writing dump...");
+	AvirA::C_Log::Info("Writing Il2cppDump.cs...");
 	std::string dump_path = out_dir + "\\Il2cppDump.cs";
 	AvirA::C_DumpWriter writer(metadata, binary);
 	if (!writer.Write(dump_path))
@@ -165,7 +165,7 @@ int main(int argc, char** argv)
 	}
 	AvirA::C_Log::Ok("Wrote " + dump_path);
 
-	AvirA::C_Log::Info("Generating DLLs...");
+	AvirA::C_Log::Info("Writing DummyDll/*.dll...");
 	AvirA::C_DummyDll dummy(metadata, binary);
 	if (!dummy.Generate(out_dir + "\\DummyDll"))
 	{
