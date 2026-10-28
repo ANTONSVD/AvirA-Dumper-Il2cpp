@@ -538,6 +538,20 @@ namespace AvirA
 				continue;
 			m_method_spec_map[def].push_back(i);
 		}
+
+		m_spec_ptr_map.clear();
+		for (size_t i = 0; i < m_generic_methods.size(); i++)
+		{
+			int spec = m_generic_methods[i].spec_index;
+			if (spec < 0 || m_spec_ptr_map.count(spec) != 0)
+				continue;
+			if (m_generic_methods[i].method_index < 0 || (size_t)m_generic_methods[i].method_index >= m_generic_method_pointers.size())
+				continue;
+			u64 pointer = m_generic_method_pointers[(size_t)m_generic_methods[i].method_index];
+			if (pointer == 0)
+				continue;
+			m_spec_ptr_map[spec] = pointer - m_image_base;
+		}
 		return true;
 	}
 
@@ -600,6 +614,26 @@ namespace AvirA
 		if (rva == UINT64_MAX)
 			return UINT64_MAX;
 		return RawFromVa(m_image_base + rva);
+	}
+
+	const std::vector<S_PeSection>& C_Il2cppBinary::Sections() const
+	{
+		return m_sections;
+	}
+
+	int C_Il2cppBinary::MethodSpecMethodDef(int spec_index) const
+	{
+		if (spec_index < 0 || (size_t)spec_index >= m_method_specs.size())
+			return -1;
+		return m_method_specs[(size_t)spec_index].method_def;
+	}
+
+	u64 C_Il2cppBinary::SpecPointerRva(int spec_index) const
+	{
+		auto it = m_spec_ptr_map.find(spec_index);
+		if (it == m_spec_ptr_map.end())
+			return UINT64_MAX;
+		return it->second;
 	}
 
 	i32 C_Il2cppBinary::FieldOffset(int type_index, int field_index_in_type, bool is_valuetype, bool is_static) const

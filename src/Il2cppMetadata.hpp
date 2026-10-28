@@ -95,6 +95,12 @@ namespace AvirA
 		i32 offset = 0;
 	};
 
+	struct S_FieldRef
+	{
+		int type_idx = -1;
+		int field_idx = -1;
+	};
+
 	struct S_AttributeDataRange
 	{
 		u32 token = 0;
@@ -117,6 +123,7 @@ namespace AvirA
 
 		int Version() const;
 		std::string GetString(u32 index) const;
+		u64 LiteralDataBase() const;
 
 		bool RawHas(u64 offset, u64 size) const;
 		u8 ReadRawU8(u64 offset) const;
@@ -147,6 +154,7 @@ namespace AvirA
 		const std::vector<S_GenericContainer>& GenericContainers() const;
 		const std::vector<S_GenericParam>& GenericParams() const;
 		const std::vector<S_StringLiteral>& StringLiterals() const;
+		const std::vector<S_FieldRef>& FieldRefs() const;
 		const std::vector<int>& InterfaceIndices() const;
 
 	private:
@@ -154,6 +162,7 @@ namespace AvirA
 		int m_version = 0;
 
 		u64 m_strings_off = 0;
+		u64 m_literal_data_off = 0;
 		u64 m_default_data_off = 0;
 		u64 m_attr_data_off = 0;
 
@@ -166,6 +175,7 @@ namespace AvirA
 		std::vector<S_GenericContainer> m_containers;
 		std::vector<S_GenericParam> m_generic_params;
 		std::vector<S_StringLiteral> m_literals;
+		std::vector<S_FieldRef> m_field_refs;
 		std::vector<int> m_interfaces;
 		std::vector<S_AttributeDataRange> m_attr_ranges;
 		std::vector<std::unordered_map<u32, int>> m_image_attr_maps;

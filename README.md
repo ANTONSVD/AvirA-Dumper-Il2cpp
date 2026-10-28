@@ -4,8 +4,13 @@
 
 Что получается на выходе:
 
-- `Il2cppDump.cs`. Весь код игры в виде текста. Удобно искать что угодно.
-- Папка `DummyDll`. Все DLL игры, открываются в dnSpy.
+- `dump.cs` — весь код игры в виде C# текста. По нему удобно все искать.
+- `script.json` — RVA всех методов, строковых слотов и метадаты. Для IDA/Ghidra.
+- `stringliteral.json` — все строковые литералы игры.
+- `il2cpp.h` — структуры всех классов в C, для IDA/Ghidra.
+- `ida.py`, `ida_with_struct.py` — скрипты для IDA, второй еще и типы применяет.
+- `ghidra.py` — скрипт для Ghidra.
+- Папка `DummyDll` — все DLL игры, открываются в dnSpy.
 
 Дампер сам правит байт версии метадаты на 1F в памяти, но только для файлов
 SCPSL. Файл игры при этом не меняется.
@@ -30,6 +35,17 @@ msbuild AvirADumper.vcxproj /p:Configuration=Release /p:Platform=x64
 ```bat
 out\AvirADumper.exe GameAssembly.dll global-metadata.dat -o out\Dump
 ```
+
+## Скрипты для IDA и Ghidra
+
+Адреса в `script.json` это RVA относительно базы `GameAssembly.dll`.
+
+**IDA**: File → Script file → выбери `ida.py` (или `ida_with_struct.py`),
+затем укажи `script.json` (и `il2cpp.h` для второго). Скрипт создаст функции
+и переименует все методы, строки и метадату.
+
+**Ghidra**: Window → Script Manager → Add script directory (папка дампа),
+запусти `ghidra.py` и укажи `script.json`.
 
 ## Примечание
 

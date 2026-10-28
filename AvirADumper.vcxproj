@@ -84,8 +84,11 @@
     <ClCompile Include="src\DummyDll.cpp" />
     <ClCompile Include="src\DumpWriter.cpp" />
     <ClCompile Include="src\Il2cppBinary.cpp" />
+    <ClCompile Include="src\Il2cppHeader.cpp" />
     <ClCompile Include="src\Il2cppMetadata.cpp" />
     <ClCompile Include="src\Main.cpp" />
+    <ClCompile Include="src\Model.cpp" />
+    <ClCompile Include="src\ScriptJson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Attributes.hpp" />
@@ -93,7 +96,10 @@
     <ClInclude Include="src\DummyDll.hpp" />
     <ClInclude Include="src\DumpWriter.hpp" />
     <ClInclude Include="src\Il2cppBinary.hpp" />
+    <ClInclude Include="src\Il2cppHeader.hpp" />
     <ClInclude Include="src\Il2cppMetadata.hpp" />
+    <ClInclude Include="src\Model.hpp" />
+    <ClInclude Include="src\ScriptJson.hpp" />
     <Image Include="app.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

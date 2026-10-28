@@ -1,5 +1,8 @@
 #include "DumpWriter.hpp"
 #include "DummyDll.hpp"
+#include "Model.hpp"
+#include "ScriptJson.hpp"
+#include "Il2cppHeader.hpp"
 #include <Windows.h>
 #include <cstdlib>
 
@@ -308,8 +311,9 @@ int main(int argc, char** argv)
 
 	CreateDirs(out_dir);
 	CreateDirs(out_dir + "\\DummyDll");
-	AvirA::C_Log::Info("Writing Il2cppDump.cs...");
-	std::string dump_path = out_dir + "\\Il2cppDump.cs";
+	AvirA::C_Model model(metadata, binary);
+	AvirA::C_Log::Info("Writing dump.cs...");
+	std::string dump_path = out_dir + "\\dump.cs";
 	AvirA::C_DumpWriter writer(metadata, binary);
 	if (!writer.Write(dump_path))
 	{
@@ -325,6 +329,24 @@ int main(int argc, char** argv)
 		AvirA::C_Log::Fail("Failed to generate DummyDll");
 		return 1;
 	}
+	AvirA::C_Log::Ok("Wrote DummyDll");
+
+	AvirA::C_Log::Info("Writing script.json, stringliteral.json, ida scripts...");
+	AvirA::C_ScriptJson scripts(model);
+	if (!scripts.Write(out_dir))
+	{
+		AvirA::C_Log::Fail("Failed to write script files");
+		return 1;
+	}
+	AvirA::C_Log::Ok("Wrote script files");
+	AvirA::C_Log::Info("Writing il2cpp.h...");
+	AvirA::C_Il2cppHeader header(model);
+	if (!header.Write(out_dir + "\\il2cpp.h"))
+	{
+		AvirA::C_Log::Fail("Failed to write il2cpp.h");
+		return 1;
+	}
+	AvirA::C_Log::Ok("Wrote il2cpp.h");
 	AvirA::C_Log::Ok("Done");
 	return 0;
 }

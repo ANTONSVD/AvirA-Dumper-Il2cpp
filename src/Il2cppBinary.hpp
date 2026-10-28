@@ -61,18 +61,22 @@ namespace AvirA
 
 		u64 MethodRva(const std::string& image_name, u32 token) const;
 		u64 FileOffsetFromRva(u64 rva) const;
+		const std::vector<S_PeSection>& Sections() const;
 
 		i32 FieldOffset(int type_index, int field_index_in_type, bool is_valuetype, bool is_static) const;
 
 		std::string TypeName(int type_index, int context_typedef = -1, int context_method = -1, int depth = 0) const;
 
 		std::vector<S_GenericInstance> GenericInstancesFull(int method_def_index) const;
+		int MethodSpecMethodDef(int spec_index) const;
+		u64 SpecPointerRva(int spec_index) const;
 		std::string GenericInstArgs(u64 inst_va, int context_method) const;
 
 		u32 BinaryTypeKind(int type_index) const;
 		u32 BinaryTypeAttrs(int type_index) const;
 		u32 BinaryTypeByref(int type_index) const;
 		bool BinaryTypeRaw(int type_index, u64& datapoint, u32& kind) const;
+		int TypeIndexFromPtr(u64 type_ptr) const;
 		int FindTypeByPtr(u64 type_ptr) const;
 		int TypedefFromType(int type_index) const;
 		std::string NestedDisplayName(int typedef_index, bool for_declaration) const;
@@ -90,9 +94,7 @@ namespace AvirA
 		std::vector<u64> FindRefs(u64 target_va, bool in_data) const;
 		bool IsDataVa(u64 va) const;
 		bool IsExecVa(u64 va) const;
-		int TypeIndexFromPtr(u64 type_ptr) const;
 		std::string GenericParamName(int container_idx, int num, bool is_method) const;
-
 		C_Buffer m_file;
 		u64 m_image_base = 0;
 		std::vector<S_PeSection> m_sections;
@@ -115,5 +117,6 @@ namespace AvirA
 		std::unordered_map<int, std::vector<size_t>> m_method_spec_map;
 		std::vector<u64> m_generic_method_pointers;
 		std::vector<u64> m_generic_insts;
+		std::unordered_map<int, u64> m_spec_ptr_map;
 	};
 }

@@ -25,6 +25,11 @@ namespace AvirA
 		return m_version;
 	}
 
+	u64 C_Il2cppMetadata::LiteralDataBase() const
+	{
+		return m_literal_data_off;
+	}
+
 	std::string C_Il2cppMetadata::GetString(u32 index) const
 	{
 		auto cached = m_string_cache.find(index);
@@ -259,6 +264,11 @@ namespace AvirA
 		return m_literals;
 	}
 
+	const std::vector<S_FieldRef>& C_Il2cppMetadata::FieldRefs() const
+	{
+		return m_field_refs;
+	}
+
 	const std::vector<int>& C_Il2cppMetadata::InterfaceIndices() const
 	{
 		return m_interfaces;
@@ -272,6 +282,7 @@ namespace AvirA
 		if (m_version < 16 || m_version > 1000)
 			return false;
 		m_strings_off = m_file.ReadU32(24);
+		m_literal_data_off = m_file.ReadU32(16);
 		m_default_data_off = m_file.ReadU32(72);
 		m_attr_data_off = m_file.ReadU32(200);
 		return true;
@@ -308,6 +319,8 @@ namespace AvirA
 		i32 images_size = m_file.ReadI32(172);
 		u64 attr_ranges_off = m_file.ReadU32(208);
 		i32 attr_ranges_size = m_file.ReadI32(212);
+		u64 field_refs_off = m_file.ReadU32(184);
+		i32 field_refs_size = m_file.ReadI32(188);
 
 		m_typedefs.clear();
 		size_t typedef_count = (size_t)(typedefs_size / 88);
@@ -444,6 +457,33 @@ namespace AvirA
 			if (!m_file.Has((size_t)at, 4))
 				break;
 			m_interfaces.push_back(m_file.ReadI32((size_t)at));
+		}
+
+		m_field_refs.clear();
+		size_t field_ref_count = (size_t)(field_refs_size / 8);
+		for (size_t i = 0; i < field_ref_count; i++)
+		{
+			u64 at = field_refs_off + i * 8;
+			if (!m_file.Has((size_t)at, 8))
+				break;
+			S_FieldRef ref;
+			ref.type_idx = m_file.ReadI32((size_t)at);
+			ref.field_idx = m_file.ReadI32((size_t)at + 4);
+			m_field_refs.push_back(ref);
+		}
+
+		m_literals.clear();
+		u64 literal_off = m_file.ReadU32(8);
+		size_t literal_count = (size_t)(m_file.ReadU32(12) / 8);
+		for (size_t i = 0; i < literal_count; i++)
+		{
+			u64 at = literal_off + i * 8;
+			if (!m_file.Has((size_t)at, 8))
+				break;
+			S_StringLiteral literal;
+			literal.length = m_file.ReadU32((size_t)at);
+			literal.offset = m_file.ReadI32((size_t)at + 4);
+			m_literals.push_back(literal);
 		}
 
 		m_images.clear();
