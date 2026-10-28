@@ -37,12 +37,12 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(ProjectDir)out\</OutDir>
-    <IntDir>$(ProjectDir)out\obj\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
     <TargetName>AvirADumper</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(ProjectDir)out\</OutDir>
-    <IntDir>$(ProjectDir)out\obj\$(Configuration)\</IntDir>
+    <IntDir>$(ProjectDir)build\$(Configuration)\</IntDir>
     <TargetName>AvirADumper</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

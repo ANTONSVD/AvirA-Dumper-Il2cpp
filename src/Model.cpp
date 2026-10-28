@@ -105,9 +105,12 @@ namespace AvirA
 		if (typedef_index < 0 || (size_t)typedef_index >= typedefs.size())
 			return -1;
 		int declaring = typedefs[(size_t)typedef_index].declaring;
-		if (declaring < 0 || declaring == typedef_index || (size_t)declaring >= typedefs.size())
+		if (declaring < 0)
 			return -1;
-		return declaring;
+		int outer = m_binary.TypedefFromType(declaring);
+		if (outer < 0 || outer == typedef_index)
+			return -1;
+		return outer;
 	}
 
 	std::string C_Model::Flat(int typedef_index)

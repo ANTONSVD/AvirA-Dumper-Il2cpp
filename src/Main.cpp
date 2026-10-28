@@ -312,8 +312,8 @@ int main(int argc, char** argv)
 	CreateDirs(out_dir);
 	CreateDirs(out_dir + "\\DummyDll");
 	AvirA::C_Model model(metadata, binary);
-	AvirA::C_Log::Info("Writing dump.cs...");
-	std::string dump_path = out_dir + "\\dump.cs";
+	AvirA::C_Log::Info("Writing Il2cppDump.cs...");
+	std::string dump_path = out_dir + "\\Il2cppDump.cs";
 	AvirA::C_DumpWriter writer(metadata, binary);
 	if (!writer.Write(dump_path))
 	{

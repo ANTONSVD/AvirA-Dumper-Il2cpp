@@ -1,4 +1,5 @@
 out/
+build/
 *.exe
 *.obj
 *.pdb
